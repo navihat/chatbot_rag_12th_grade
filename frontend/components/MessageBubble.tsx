@@ -1,8 +1,20 @@
 import SourceCard from "./SourceCard";
+import QuizCard from "./QuizCard";
 import type { Message } from "@/lib/api";
 
 export default function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
+
+  if (message.quiz) {
+    return (
+      <div className="flex justify-start">
+        <div className="max-w-[90%] flex flex-col gap-1 items-start">
+          <span className="text-xs text-gray-400 ml-1">📝 Câu hỏi trắc nghiệm</span>
+          <QuizCard quiz={message.quiz} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>

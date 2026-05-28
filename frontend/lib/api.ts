@@ -3,10 +3,24 @@ export interface Source {
   page?: number;
 }
 
+export interface QuizQuestion {
+  id: number;
+  question: string;
+  options: Record<string, string>;
+  correct: string;
+  explanation: string;
+}
+
+export interface Quiz {
+  topic: string;
+  questions: QuizQuestion[];
+}
+
 export interface Message {
   role: "user" | "assistant";
   content: string;
   sources?: Source[];
+  quiz?: Quiz;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -49,4 +63,16 @@ export async function sendMessage(
       }
     }
   }
+}
+
+export async function generateQuiz(question: string): Promise<Quiz> {
+  const res = await fetch(`${API_URL}/quiz`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json() as { error?: string; topic?: string; questions?: QuizQuestion[] };
+  if (data.error) throw new Error(data.error);
+  return data as Quiz;
 }

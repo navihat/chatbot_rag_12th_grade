@@ -3,13 +3,20 @@
 import { useState, useRef, useEffect } from "react";
 import MessageBubble from "./MessageBubble";
 import InputBar from "./InputBar";
-import { sendMessage, type Message } from "@/lib/api";
+import { sendMessage, generateQuiz, type Message } from "@/lib/api";
 
 const WELCOME: Message = {
   role: "assistant",
-  content: "Xin chào! Tôi là trợ lý học tập môn Hóa học lớp 12 (SGK Kết nối tri thức).\n\nHãy đặt câu hỏi về lý thuyết Hóa học — tôi sẽ trả lời dựa trên nội dung sách giáo khoa.",
+  content: "Xin chào! Tôi là trợ lý học tập môn Hóa học lớp 12 (SGK Kết nối tri thức).\n\nHãy đặt câu hỏi về lý thuyết Hóa học — hoặc yêu cầu \"tạo câu hỏi trắc nghiệm về [chủ đề]\" để luyện tập.",
   sources: [],
 };
+
+const QUIZ_KEYWORDS = ["trắc nghiệm", "trac nghiem", "quiz", "tạo câu hỏi", "tao cau hoi", "đề thi", "de thi", "bài kiểm tra", "bai kiem tra"];
+
+function isQuizRequest(text: string): boolean {
+  const lower = text.toLowerCase();
+  return QUIZ_KEYWORDS.some((kw) => lower.includes(kw));
+}
 
 export default function ChatWindow() {
   const [messages, setMessages] = useState<Message[]>([WELCOME]);
@@ -25,6 +32,40 @@ export default function ChatWindow() {
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
 
+    if (isQuizRequest(question)) {
+      await handleQuizRequest(question);
+    } else {
+      await handleChatRequest(question);
+    }
+
+    setLoading(false);
+  }
+
+  async function handleQuizRequest(question: string) {
+    const placeholderMsg: Message = {
+      role: "assistant",
+      content: "Đang tạo câu hỏi trắc nghiệm...",
+    };
+    setMessages((prev) => [...prev, placeholderMsg]);
+
+    try {
+      const quiz = await generateQuiz(question);
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: "assistant", content: "", quiz };
+        return updated;
+      });
+    } catch (err) {
+      const errorText = err instanceof Error ? err.message : "Có lỗi xảy ra khi tạo câu hỏi.";
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: "assistant", content: errorText };
+        return updated;
+      });
+    }
+  }
+
+  async function handleChatRequest(question: string) {
     const assistantMsg: Message = { role: "assistant", content: "", sources: [] };
     setMessages((prev) => [...prev, assistantMsg]);
 
@@ -53,8 +94,6 @@ export default function ChatWindow() {
         };
         return updated;
       });
-    } finally {
-      setLoading(false);
     }
   }
 

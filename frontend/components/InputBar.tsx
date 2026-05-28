@@ -10,8 +10,8 @@ interface Props {
 const EXAMPLES = [
   "Axit HCl có tính chất hóa học gì?",
   "Phản ứng oxi hóa khử là gì?",
-  "Este là gì? Cho ví dụ.",
-  "Liên kết ion là gì?",
+  "Tạo 4 câu trắc nghiệm về este",
+  "Tạo câu hỏi trắc nghiệm về axit-bazơ",
 ];
 
 export default function InputBar({ onSend, disabled }: Props) {
