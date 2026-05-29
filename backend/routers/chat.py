@@ -1,12 +1,21 @@
 import json
 import logging
-from fastapi import APIRouter
+
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
+from services.auth import verify_token
 from services.rag import generate_answer
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+_bearer = HTTPBearer()
+
+
+def _require_auth(credentials: HTTPAuthorizationCredentials = Depends(_bearer)) -> None:
+    if not verify_token(credentials.credentials):
+        raise HTTPException(status_code=401, detail="Token không hợp lệ hoặc đã hết hạn.")
 
 
 class Message(BaseModel):
@@ -20,7 +29,7 @@ class ChatRequest(BaseModel):
 
 
 @router.post("/chat")
-async def chat(request: ChatRequest):
+async def chat(request: ChatRequest, _: None = Depends(_require_auth)):
     history = [m.model_dump() for m in request.history]
 
     async def stream():

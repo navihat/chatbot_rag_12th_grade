@@ -30,7 +30,7 @@ export default function MessageBubble({ message }: { message: Message }) {
           }`}
         >
           {message.content || (
-            <span className="opacity-40 italic">Đang soạn...</span>
+            <span className="opacity-40 italic">Đang suy nghĩ...</span>
           )}
         </div>
         {!isUser && message.sources && message.sources.length > 0 && (

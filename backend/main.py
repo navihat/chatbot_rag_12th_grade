@@ -2,7 +2,7 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import chat, quiz
+from routers import auth, chat, quiz
 from services.vectorstore import init_vectorstore
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -23,6 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(chat.router)
 app.include_router(quiz.router)
 

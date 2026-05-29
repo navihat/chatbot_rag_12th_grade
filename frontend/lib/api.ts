@@ -25,6 +25,18 @@ export interface Message {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
+function authHeaders(): Record<string, string> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("hoa12_token") : null;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+function handleUnauthorized(status: number): void {
+  if (status === 401 && typeof window !== "undefined") {
+    localStorage.removeItem("hoa12_token");
+    window.location.href = "/login";
+  }
+}
+
 export async function sendMessage(
   question: string,
   history: Array<{ role: string; content: string }>,
@@ -32,11 +44,14 @@ export async function sendMessage(
 ): Promise<void> {
   const res = await fetch(`${API_URL}/chat`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ question, history }),
   });
 
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
   if (!res.body) throw new Error("No response body");
 
   const reader = res.body.getReader();
@@ -68,10 +83,13 @@ export async function sendMessage(
 export async function generateQuiz(question: string): Promise<Quiz> {
   const res = await fetch(`${API_URL}/quiz`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ question }),
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
   const data = await res.json() as { error?: string; topic?: string; questions?: QuizQuestion[] };
   if (data.error) throw new Error(data.error);
   return data as Quiz;

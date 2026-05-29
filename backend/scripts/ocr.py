@@ -38,7 +38,7 @@ def run_ocr(pdf_path: Path, output_dir: Path, page_indices: list[int]) -> None:
 
     output_dir.mkdir(parents=True, exist_ok=True)
     logger.info("Initializing EasyOCR (first run downloads model ~500MB)...")
-    reader = easyocr.Reader(["vi", "en"], gpu=False)
+    reader = easyocr.Reader(["vi", "en"], gpu=True)
 
     doc = fitz.open(str(pdf_path))
     logger.info(f"PDF: {doc.page_count} pages total. Processing {len(page_indices)} pages.")
