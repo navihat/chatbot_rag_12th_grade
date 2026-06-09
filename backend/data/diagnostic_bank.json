@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "chapter": "Chương 1: Este - Lipit",
+    "level": 1,
+    "question": "Este nào sau đây có mùi dứa chín thơm đặc trưng?",
+    "options": {
+      "A": "Isoamyl axetat",
+      "B": "Ethyl butyrat",
+      "C": "Geranyl axetat",
+      "D": "Benzyl axetat"
+    },
+    "correct": "B",
+    "explanation": "Ethyl butyrat (hoặc ethyl propionat) có mùi dứa chín thơm đặc trưng. Isoamyl axetat có mùi chuối chín."
+  },
+  {
+    "id": 2,
+    "chapter": "Chương 2: Cacbohidrat",
+    "level": 1,
+    "question": "Cacbohidrat nào sau đây thuộc loại đissaccarit?",
+    "options": {
+      "A": "Glucozơ",
+      "B": "Saccarozơ",
+      "C": "Tinh bột",
+      "D": "Xenlulozơ"
+    },
+    "correct": "B",
+    "explanation": "Saccarozơ là đissaccarit được cấu tạo từ một gốc glucozơ và một gốc fructozơ. Glucozơ là monosaccarit, tinh bột và xenlulozơ là polisaccarit."
+  },
+  {
+    "id": 3,
+    "chapter": "Chương 3: Amin - Peptit - Protein",
+    "level": 1,
+    "question": "Chất nào sau đây là amin bậc một?",
+    "options": {
+      "A": "Metylamin (CH3NH2)",
+      "B": "Đimetylamin ((CH3)2NH)",
+      "C": "Trimetylamin ((CH3)3N)",
+      "D": "Etylmetylamin (C2H5NHCH3)"
+    },
+    "correct": "A",
+    "explanation": "Amin bậc một có nhóm chức -NH2 liên kết với gốc hidrocacbon. Metylamin (CH3NH2) là amin bậc một. Đimetylamin và Etylmetylamin là amin bậc hai. Trimetylamin là amin bậc ba."
+  },
+  {
+    "id": 4,
+    "chapter": "Chương 4: Vật liệu Polime",
+    "level": 1,
+    "question": "Polime nào sau đây được điều chế bằng phản ứng trùng hợp?",
+    "options": {
+      "A": "Nilon-6,6",
+      "B": "Poli(vinyl clorua) - PVC",
+      "C": "Tơ lapsan",
+      "D": "Novolak"
+    },
+    "correct": "B",
+    "explanation": "Poli(vinyl clorua) (PVC) được điều chế bằng phản ứng trùng hợp monomer vinyl clorua (CH2=CHCl). Nilon-6,6 và lapsan được điều chế bằng phản ứng trùng ngưng."
+  },
+  {
+    "id": 5,
+    "chapter": "Chương 6: Đại cương kim loại",
+    "level": 1,
+    "question": "Trong quá trình ăn mòn điện hóa học kim loại, ở cực âm (anot) xảy ra quá trình gì?",
+    "options": {
+      "A": "Khử kim loại",
+      "B": "Oxi hóa kim loại",
+      "C": "Khử các ion trong dung dịch",
+      "D": "Oxi hóa các ion trong dung dịch"
+    },
+    "correct": "B",
+    "explanation": "Trong ăn mòn điện hóa, cực âm (anot) là kim loại hoạt động mạnh hơn, tại đây xảy ra quá trình oxi hóa kim loại (kim loại bị ăn mòn/nhường e)."
+  },
+  {
+    "id": 6,
+    "chapter": "Chương 7: Nhóm IA, IIA & Nhôm",
+    "level": 1,
+    "question": "Công thức hóa học của phèn chua dùng trong ngành giấy, thuộc da và làm trong nước sinh hoạt là gì?",
+    "options": {
+      "A": "Na2SO4.Al2(SO4)3.24H2O",
+      "B": "K2SO4.Al2(SO4)3.24H2O",
+      "C": "FeSO4.Al2(SO4)3.24H2O",
+      "D": "MgSO4.Al2(SO4)3.24H2O"
+    },
+    "correct": "B",
+    "explanation": "Phèn chua là muối kép của kali và nhôm sulfat ngậm nước, có công thức hóa học là K2SO4.Al2(SO4)3.24H2O (thường viết gọn là KAl(SO4)2.12H2O)."
+  },
+  {
+    "id": 7,
+    "chapter": "Chương 2: Cacbohidrat",
+    "level": 2,
+    "question": "Khi thủy phân hoàn toàn tinh bột hoặc xenlulozơ trong môi trường axit đun nóng, sản phẩm thu được duy nhất là chất nào?",
+    "options": {
+      "A": "Glucozơ",
+      "B": "Fructozơ",
+      "C": "Saccarozơ",
+      "D": "Glycerol"
+    },
+    "correct": "A",
+    "explanation": "Cả tinh bột và xenlulozơ đều được cấu tạo từ các mắt xích glucozơ liên kết với nhau, do đó khi thủy phân hoàn toàn sản phẩm thu được duy nhất là glucozơ."
+  },
+  {
+    "id": 8,
+    "chapter": "Chương 3: Amin - Peptit - Protein",
+    "level": 2,
+    "question": "Khi cho dung dịch anilin (C6H5NH2) tác dụng với nước brom (Br2) dư ở điều kiện thường, hiện tượng quan sát được là gì?",
+    "options": {
+      "A": "Dung dịch brom bị mất màu và không có kết tủa.",
+      "B": "Dung dịch brom bị mất màu và xuất hiện kết tủa trắng.",
+      "C": "Dung dịch brom hóa xanh và có khí thoát ra.",
+      "D": "Không xảy ra phản ứng hóa học."
+    },
+    "correct": "B",
+    "explanation": "Anilin tác dụng với nước brom tạo ra kết tủa trắng của 2,4,6-tribromoanilin do nhóm -NH2 đẩy e mạnh làm tăng mật độ e ở các vị trí ortho và para của vòng benzen."
+  },
+  {
+    "id": 9,
+    "chapter": "Chương 4: Vật liệu Polime",
+    "level": 2,
+    "question": "Tơ nilon-6,6 kém bền trong môi trường axit hoặc kiềm mạnh. Nguyên nhân chính là gì?",
+    "options": {
+      "A": "Do polime có cấu trúc mạch phân nhánh.",
+      "B": "Do có chứa liên kết peptit dễ bị thủy phân.",
+      "C": "Do có chứa liên kết amit (-CO-NH-) dễ bị thủy phân trong cả axit và kiềm.",
+      "D": "Do polime có tính chất lưỡng tính."
+    },
+    "correct": "C",
+    "explanation": "Tơ nilon-6,6 thuộc loại poliamit, mạch polime chứa nhiều nhóm amit (-CO-NH-). Liên kết amit này dễ bị thủy phân phá hủy mạch trong môi trường axit hoặc kiềm."
+  },
+  {
+    "id": 10,
+    "chapter": "Chương 6: Đại cương kim loại",
+    "level": 2,
+    "question": "Để bảo vệ vỏ tàu biển bằng thép (hợp kim của sắt) khỏi bị ăn mòn điện hóa bởi nước biển, phương pháp bảo vệ điện hóa hiệu quả nhất là gì?",
+    "options": {
+      "A": "Sơn một lớp sơn chống rỉ lên vỏ tàu.",
+      "B": "Gắn những lá kẽm (Zn) vào phần vỏ tàu chìm trong nước biển.",
+      "C": "Gắn những lá đồng (Cu) vào vỏ tàu thép.",
+      "D": "Nối vỏ tàu với cực dương của nguồn điện một chiều ngoài."
+    },
+    "correct": "B",
+    "explanation": "Kẽm (Zn) hoạt động hóa học mạnh hơn sắt (Fe). Khi gắn Zn vào thép vỏ tàu, Zn đóng vai trò là anot (cực âm) và bị ăn mòn trước, bảo vệ sắt không bị oxi hóa."
+  },
+  {
+    "id": 11,
+    "chapter": "Chương 7: Nhóm IA, IIA & Nhôm",
+    "level": 2,
+    "question": "Cho từ từ đến dư dung dịch natri hidroxit (NaOH) vào dung dịch nhôm clorua (AlCl3). Hiện tượng hóa học nào sau đây xảy ra?",
+    "options": {
+      "A": "Xuất hiện kết tủa keo trắng và kết tủa không tan khi NaOH dư.",
+      "B": "Xuất hiện kết tủa keo trắng, sau đó kết tủa tan dần tạo thành dung dịch trong suốt khi NaOH dư.",
+      "C": "Chỉ có sủi bọt khí không màu thoát ra ngoài.",
+      "D": "Không xảy ra hiện tượng gì."
+    },
+    "correct": "B",
+    "explanation": "Đầu tiên xảy ra phản ứng tạo kết tủa Al(OH)3 keo trắng. Khi NaOH dư, kết tủa Al(OH)3 là hidroxit lưỡng tính phản ứng tiếp với kiềm mạnh và tan ra tạo thành phức tan natri aluminat [Al(OH)4]-."
+  },
+  {
+    "id": 12,
+    "chapter": "Chương 1: Este - Lipit",
+    "level": 3,
+    "question": "Trong công nghiệp sản xuất xà phòng từ dầu mỡ động thực vật, sản phẩm phụ thu được có giá trị cao là glycerol. Ứng dụng chính của glycerol trong công nghiệp mỹ phẩm và y tế là gì?",
+    "options": {
+      "A": "Làm dung môi pha chế sơn nước.",
+      "B": "Làm chất dưỡng ẩm trong kem dưỡng da và nguyên liệu điều chế thuốc nổ nitroglycerin.",
+      "C": "Làm chất tẩy trắng quần áo.",
+      "D": "Làm gia vị tạo ngọt thay thế đường saccarozơ."
+    },
+    "correct": "B",
+    "explanation": "Glycerol (glyxerin) có tính háo nước, giữ ẩm tốt nên được dùng rộng rãi trong mỹ phẩm (kem dưỡng ẩm). Nó cũng là nguyên liệu chính phản ứng với HNO3 đặc tạo ra thuốc nổ nitroglycerin."
+  },
+  {
+    "id": 13,
+    "chapter": "Chương 3: Amin - Peptit - Protein",
+    "level": 3,
+    "question": "Khi nấu canh cua, hiện tượng riêu cua nổi lên trên khi đun nóng nước lọc cua là kết quả của hiện tượng đông tụ protein. Tác nhân vật lý gây ra hiện tượng này là gì?",
+    "options": {
+      "A": "Sự thay đổi độ pH của môi trường nước.",
+      "B": "Sự tăng nhiệt độ khi đun nấu.",
+      "C": "Sự có mặt của muối ăn (NaCl).",
+      "D": "Tác dụng xúc tác của các enzyme trong cua."
+    },
+    "correct": "B",
+    "explanation": "Nhiệt độ cao (đun nóng) làm biến tính cấu trúc không gian của protein trong lòng trắng/thịt cua, làm chúng mất tính tan và đông tụ thành mảng nổi lên trên (riêu cua)."
+  },
+  {
+    "id": 14,
+    "chapter": "Chương 5: Pin điện & Điện phân",
+    "level": 3,
+    "question": "Trong công nghiệp hóa chất, quá trình điện phân dung dịch natri clorua (NaCl) bão hòa có màng ngăn xốp được ứng dụng để sản xuất đồng thời các hóa chất cơ bản nào sau đây?",
+    "options": {
+      "A": "Kim loại Na và khí Clo (Cl2).",
+      "B": "Khí Clo (Cl2), khí Hidro (H2) và dung dịch Natri hidroxit (NaOH).",
+      "C": "Nước Javel (NaClO và NaCl).",
+      "D": "Axit clohidric (HCl) và khí Oxi (O2)."
+    },
+    "correct": "B",
+    "explanation": "Khi điện phân dung dịch NaCl có màng ngăn xốp, anot sinh ra khí Cl2, catot sinh ra khí H2 và dung dịch xung quanh catot trở thành NaOH. Màng ngăn xốp ngăn Cl2 phản ứng với NaOH."
+  },
+  {
+    "id": 15,
+    "chapter": "Chương 8: Sắt & Phức chất",
+    "level": 3,
+    "question": "Hemoglobin trong hồng cầu máu người là phức chất của sắt (Fe) có khả năng liên kết thuận nghịch với oxi để vận chuyển O2. Khí độc nào sau đây có khả năng liên kết với Hemoglobin mạnh gấp hơn 200 lần O2, cướp chỗ của O2 và gây tử vong do ngạt?",
+    "options": {
+      "A": "Khí Cacbon đioxit (CO2)",
+      "B": "Khí Cacbon monoxit (CO)",
+      "C": "Khí Nitơ (N2)",
+      "D": "Khí Metan (CH4)"
+    },
+    "correct": "B",
+    "explanation": "Khí CO liên kết rất mạnh với nguyên tử sắt Fe(II) trong nhân heme của Hemoglobin tạo thành carboxyhemoglobin bền vững, làm cho hemoglobin không thể nhận và vận chuyển oxi, dẫn đến nhiễm độc ngạt khí nguy hiểm."
+  }
+]

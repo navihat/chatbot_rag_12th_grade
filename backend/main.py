@@ -2,14 +2,16 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth, chat, quiz
+from routers import auth, chat, quiz, assessment
 from services.vectorstore import init_vectorstore
+from services.db import init_db
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    init_db()
     init_vectorstore()
     yield
 
@@ -26,6 +28,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(chat.router)
 app.include_router(quiz.router)
+app.include_router(assessment.router)
 
 if __name__ == "__main__":
     import uvicorn

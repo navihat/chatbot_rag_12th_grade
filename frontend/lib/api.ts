@@ -23,7 +23,7 @@ export interface Message {
   quiz?: Quiz;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8888";
 
 function authHeaders(): Record<string, string> {
   const token = typeof window !== "undefined" ? localStorage.getItem("hoa12_token") : null;
@@ -33,8 +33,102 @@ function authHeaders(): Record<string, string> {
 function handleUnauthorized(status: number): void {
   if (status === 401 && typeof window !== "undefined") {
     localStorage.removeItem("hoa12_token");
+    localStorage.removeItem("hoa12_email");
     window.location.href = "/login";
   }
+}
+
+export async function register(email: string, password: string): Promise<string> {
+  const res = await fetch(`${API_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  
+  const data = await res.json() as { token?: string; error?: string };
+  if (!res.ok || data.error) {
+    throw new Error(data.error ?? "Đăng ký không thành công.");
+  }
+  return data.token!;
+}
+
+export async function login(email: string, password: string): Promise<string> {
+  const res = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  
+  const data = await res.json() as { token?: string; error?: string };
+  if (!res.ok || data.error) {
+    throw new Error(data.error ?? "Đăng nhập không thành công.");
+  }
+  return data.token!;
+}
+
+export async function getChatHistory(): Promise<Message[]> {
+  const res = await fetch(`${API_URL}/chat/history`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
+  return await res.json() as Message[];
+}
+
+export async function clearChatHistory(): Promise<void> {
+  const res = await fetch(`${API_URL}/chat/history/clear`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
+}
+
+export async function getChapterQuestions(chapter: string): Promise<any> {
+  const encoded = encodeURIComponent(chapter);
+  const res = await fetch(`${API_URL}/assessment/chapter/questions?chapter=${encoded}`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
+  return await res.json();
+}
+
+export async function submitChapterAssessment(
+  chapter: string,
+  answers: Record<string, string>,
+  responseTimes: Record<string, number>
+): Promise<any> {
+  const res = await fetch(`${API_URL}/assessment/chapter/submit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify({ chapter, answers, response_times: responseTimes }),
+  });
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
+  return await res.json();
+}
+
+export async function getMasteryStatus(): Promise<any[]> {
+  const res = await fetch(`${API_URL}/assessment/mastery`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
+  return await res.json();
 }
 
 export async function sendMessage(
