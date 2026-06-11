@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { isAuthenticated, clearToken, getEmail } from "@/lib/auth";
 import ChatWindow from "@/components/ChatWindow";
 import DiagnosticView from "@/components/DiagnosticView";
+import Logo from "@/components/Logo";
 
 interface Chapter {
   id: number;
@@ -71,8 +72,9 @@ export default function Home() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <span className="text-sm font-bold tracking-tight text-white flex items-center gap-1.5">
-          <span className="text-gradient">⚗️ Hóa Học 12</span>
+        <span className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+          <Logo size="sm" />
+          <span className="text-gradient font-extrabold">Hóa Học 12</span>
         </span>
         <button
           onClick={() => { clearToken(); router.replace("/login"); }}
@@ -90,9 +92,7 @@ export default function Home() {
         {/* Sidebar Header */}
         <div className="p-6 border-b border-white/5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center glow-accent">
-              <span className="text-lg">⚗️</span>
-            </div>
+            <Logo size="md" className="glow-accent" />
             <div>
               <h1 className="text-base font-extrabold text-white tracking-tight leading-none">
                 Hóa Học <span className="text-gradient">12</span>

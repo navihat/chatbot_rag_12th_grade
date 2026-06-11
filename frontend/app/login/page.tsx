@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { setToken, setEmail } from "@/lib/auth";
 import { login, register } from "@/lib/api";
+import Logo from "@/components/Logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -54,40 +55,7 @@ export default function LoginPage() {
           {/* Animated beaker container */}
           <div className="inline-flex items-center justify-center relative mb-4">
             <div className="absolute inset-0 bg-indigo-500/20 blur-xl rounded-full scale-75 animate-pulse-glow" />
-            <svg
-              className="w-16 h-16 text-indigo-400 relative z-10"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M6 3h12" />
-              <path d="M9 3v4.5L4.5 19A2 2 0 0 0 6.4 21h11.2a2 2 0 0 0 1.9-2.5L15 7.5V3" />
-              <path
-                d="M5.5 16.5c1 0 1.5-.5 2.5-.5s1.5.5 2.5.5 1.5-.5 2.5-.5 1.5.5 2.5.5 1.5-.5 2.5-.5"
-                stroke="url(#liquidGradient)"
-                strokeWidth="1"
-                fill="none"
-              />
-              <path
-                d="M5.5 16.5c1 0 1.5-.5 2.5-.5s1.5.5 2.5.5 1.5-.5 2.5-.5 1.5.5 2.5.5 1.5-.5 2.5-.5L18 20.5a.5.5 0 0 1-.5.5H6.5a.5.5 0 0 1-.5-.5L5.5 16.5z"
-                fill="url(#liquidGradient)"
-                opacity="0.3"
-              />
-              <defs>
-                <linearGradient id="liquidGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#818cf8" />
-                  <stop offset="100%" stopColor="#f472b6" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Bubble particles */}
-            <div className="absolute top-1 left-7 w-1 h-1 bg-pink-400 rounded-full bubble-particle" style={{ animationDelay: "0s" }} />
-            <div className="absolute top-2 left-9 w-1.5 h-1.5 bg-indigo-400 rounded-full bubble-particle" style={{ animationDelay: "0.6s" }} />
-            <div className="absolute top-0 left-5 w-1 h-1 bg-cyan-400 rounded-full bubble-particle" style={{ animationDelay: "1.2s" }} />
+            <Logo size="xl" />
           </div>
 
           <h1 className="text-3xl font-extrabold tracking-tight text-white">

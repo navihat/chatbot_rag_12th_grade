@@ -94,7 +94,7 @@ export default function InputBar({ onSend, disabled }: Props) {
           title="Gửi tin nhắn"
         >
           <svg
-            className="w-4.5 h-4.5 text-white transform rotate-45 -translate-x-0.5 translate-y-0.5 group-hover:translate-x-0 group-hover:-translate-y-0 transition-transform"
+            className="w-4.5 h-4.5 text-white transform -rotate-45 -translate-x-0.5 translate-y-0.5 group-hover:translate-x-0 group-hover:-translate-y-0 transition-transform"
             fill="none"
             stroke="currentColor"
             strokeWidth="2.5"

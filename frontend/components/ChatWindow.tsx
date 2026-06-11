@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import MessageBubble from "./MessageBubble";
 import InputBar from "./InputBar";
+import Logo from "./Logo";
 import { sendMessage, generateQuiz, getChatHistory, clearChatHistory, type Message } from "@/lib/api";
 
 const WELCOME: Message = {
@@ -190,9 +191,7 @@ export default function ChatWindow({ externalPrompt, onClearExternalPrompt }: Pr
           <div className="h-full flex flex-col items-center justify-center text-center p-4 max-w-md mx-auto space-y-6">
             <div className="relative inline-flex items-center justify-center">
               <div className="absolute inset-0 bg-indigo-500/20 blur-xl rounded-full scale-90 animate-pulse-glow" />
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg relative z-10 select-none">
-                ⚗️
-              </div>
+              <Logo size="lg" className="shadow-lg relative z-10 select-none" />
             </div>
             <div className="space-y-2">
               <h2 className="text-xl font-extrabold text-white font-outfit">
