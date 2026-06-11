@@ -1,7 +1,7 @@
 import re
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, field_validator
 from services.auth import create_token, hash_password, verify_password
 from services.db import create_user, get_user
 
