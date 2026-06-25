@@ -9,7 +9,7 @@ if str(BACKEND_DIR) not in sys.path:
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth, chat, quiz, assessment
+from routers import auth, chat, quiz, assessment, learning_report
 from services.retrieval import init_retrieval
 from services.db import init_db
 
@@ -36,6 +36,7 @@ app.include_router(auth.router)
 app.include_router(chat.router)
 app.include_router(quiz.router)
 app.include_router(assessment.router)
+app.include_router(learning_report.router)
 
 if __name__ == "__main__":
     import uvicorn

@@ -138,6 +138,15 @@ export default function Home() {
           >
             <span className="text-base">📊</span> Đánh Giá Năng Lực
           </button>
+          <button
+            onClick={() => {
+              setSidebarOpen(false);
+              router.push("/report");
+            }}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/[0.04] border border-transparent"
+          >
+            <span className="text-base">AI</span> Báo cáo học tập
+          </button>
         </div>
 
         {/* Scrollable Chapters List */}

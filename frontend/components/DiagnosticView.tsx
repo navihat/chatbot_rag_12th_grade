@@ -47,18 +47,18 @@ interface Props {
 export default function DiagnosticView({ onTriggerPractice }: Props) {
   const [masteries, setMasteries] = useState<Record<string, ChapterMastery>>({});
   const [loading, setLoading] = useState(true);
-  
+
   // Test states
   const [activeTestChapter, setActiveTestChapter] = useState<string | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [quizLoading, setQuizLoading] = useState(false);
   const [currentQIdx, setCurrentQIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  
+
   // Timers for response time
   const [qStartTime, setQStartTime] = useState<number>(0);
   const [responseTimes, setResponseTimes] = useState<Record<string, number>>({});
-  
+
   // Results states
   const [testResult, setTestResult] = useState<AssessmentResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -73,7 +73,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
     try {
       const data = await getMasteryStatus();
       const mapped: Record<string, ChapterMastery> = {};
-      
+
       // Seed default 0% values
       CHAPTERS_LIST.forEach((ch) => {
         mapped[ch] = {
@@ -84,7 +84,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
           highest_status: "Novice"
         };
       });
-      
+
       // Override with actual database values
       data.forEach((item: any) => {
         mapped[item.chapter] = {
@@ -96,7 +96,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
           updated_at: item.updated_at,
         };
       });
-      
+
       setMasteries(mapped);
     } catch (err) {
       console.error("Failed to load mastery data:", err);
@@ -113,7 +113,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
     setAnswers({});
     setResponseTimes({});
     setCurrentQIdx(0);
-    
+
     try {
       const data = await getChapterQuestions(chapter);
       if (data.questions && data.questions.length > 0) {
@@ -135,10 +135,10 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
   function handleSelectOption(opt: string) {
     const q = questions[currentQIdx];
     const qIdStr = q.id.toString();
-    
+
     // Calculate elapsed time for this question
     const elapsed = (Date.now() - qStartTime) / 1000;
-    
+
     setAnswers((prev) => ({ ...prev, [qIdStr]: opt }));
     setResponseTimes((prev) => ({ ...prev, [qIdStr]: elapsed }));
   }
@@ -192,7 +192,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
         {loading ? (
           <div className="flex-1 flex flex-col items-center justify-center space-y-3">
             <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-            <span className="text-xs text-gray-500 font-medium">Đang đồng bộ chỉ số thông thạo từ SQLite...</span>
+            <span className="text-xs text-gray-500 font-medium">Đang đồng bộ chỉ số thông thạo từ Supabase...</span>
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto pr-1">
@@ -208,10 +208,10 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
                 const highestScore = item.highest_mastery_score;
                 const highestStatus = item.highest_status;
                 const latestScore = item.mastery_score;
-                
+
                 const scoreColor = highestStatus === "Expert" ? "text-emerald-400" : highestStatus === "Proficient" ? "text-amber-400" : "text-rose-400";
                 const barColor = highestStatus === "Expert" ? "bg-emerald-500" : highestStatus === "Proficient" ? "bg-amber-500" : "bg-rose-500";
-                
+
                 return (
                   <div key={chapterName} className="p-4 rounded-2xl glass-card border-white/5 hover:border-white/10 transition-all duration-200 flex flex-col justify-between space-y-3 relative group">
                     <div className="space-y-2">
@@ -251,7 +251,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
                         onClick={() => onTriggerPractice(`Tạo 5 câu hỏi trắc nghiệm kiểm tra lý thuyết về: ${chapterName}`)}
                         className="flex-1 text-[10px] font-bold py-2 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/15 transition-all active:scale-[0.98]"
                       >
-                        💬 Luyện tập RAG
+                        💬 Luyện tập với Chatbot
                       </button>
                     </div>
                   </div>
@@ -298,17 +298,17 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
     const isExpert = testResult.status === "Expert";
     const isProficient = testResult.status === "Proficient";
     const statusColor = isExpert ? "text-emerald-400" : isProficient ? "text-amber-400" : "text-rose-400";
-    const statusBadge = isExpert 
-      ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20" 
-      : isProficient 
-        ? "bg-amber-500/10 text-amber-300 border-amber-500/20" 
+    const statusBadge = isExpert
+      ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/20"
+      : isProficient
+        ? "bg-amber-500/10 text-amber-300 border-amber-500/20"
         : "bg-rose-500/10 text-rose-300 border-rose-500/20";
-        
-    const recommendation = isExpert 
-      ? "Xuất sắc! Bạn đã thông thạo chương này. Hệ thống khuyên dùng bỏ qua lý thuyết cơ bản để làm các bài tập nâng cao." 
-      : isProficient 
-        ? "Khá tốt! Bạn có nền tảng. Hệ thống khuyến nghị ôn tập lại các câu hỏi sai và luyện tập thêm với chatbot." 
-        : "Bạn cần cải thiện nhiều. Hệ thống đã cập nhật gợi ý đào tạo lại từ đầu. Hãy bấm nút 'Luyện tập RAG' để chatbot hỗ trợ giảng giải.";
+
+    const recommendation = isExpert
+      ? "Xuất sắc! Bạn đã thông thạo chương này. Hệ thống khuyên dùng bỏ qua lý thuyết cơ bản để làm các bài tập nâng cao."
+      : isProficient
+        ? "Khá tốt! Bạn có nền tảng. Hệ thống khuyến nghị ôn tập lại các câu hỏi sai và luyện tập thêm với chatbot."
+        : "Bạn cần cải thiện nhiều. Hệ thống đã cập nhật gợi ý đào tạo lại từ đầu. Hãy bấm nút 'Luyện tập với Chatbot' để chatbot hỗ trợ giảng giải.";
 
     return (
       <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-[88vh] shadow-2xl relative backdrop-blur-xl p-6 space-y-5">
@@ -342,7 +342,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
                 const isCorrect = testResult.correctness[idx] === 1;
                 const correctOption = testResult.correct_answers[q.id.toString()];
                 const explanation = testResult.explanations[q.id.toString()];
-                
+
                 return (
                   <div key={q.id} className="p-4 rounded-2xl bg-white/[0.01] border border-white/5 space-y-2">
                     <div className="flex items-start justify-between gap-3">
@@ -350,11 +350,10 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
                         <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">Câu {idx + 1} · Cấp độ {q.level} ({q.level_name || (q.level === 1 ? "Nhận biết" : q.level === 2 ? "Thông hiểu" : "Vận dụng")})</span>
                         <p className="text-xs font-bold text-white leading-relaxed">{q.question}</p>
                       </div>
-                      <span className={`w-5 h-5 rounded-lg flex items-center justify-center text-[10px] font-extrabold shrink-0 border ${
-                        isCorrect 
-                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" 
-                          : "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                      }`}>
+                      <span className={`w-5 h-5 rounded-lg flex items-center justify-center text-[10px] font-extrabold shrink-0 border ${isCorrect
+                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                        : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                        }`}>
                         {isCorrect ? "✓" : "✗"}
                       </span>
                     </div>
@@ -441,17 +440,15 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
                 <button
                   key={key}
                   onClick={() => handleSelectOption(key)}
-                  className={`w-full text-left text-xs md:text-sm px-4 py-3.5 rounded-2xl border transition-all duration-150 flex items-center group active:scale-[0.99] ${
-                    isSelected
-                      ? "bg-indigo-600/10 border-indigo-500/40 text-indigo-300 font-semibold"
-                      : "bg-white/[0.01] border-white/5 hover:bg-white/[0.04] hover:border-white/10 text-gray-300"
-                  }`}
+                  className={`w-full text-left text-xs md:text-sm px-4 py-3.5 rounded-2xl border transition-all duration-150 flex items-center group active:scale-[0.99] ${isSelected
+                    ? "bg-indigo-600/10 border-indigo-500/40 text-indigo-300 font-semibold"
+                    : "bg-white/[0.01] border-white/5 hover:bg-white/[0.04] hover:border-white/10 text-gray-300"
+                    }`}
                 >
-                  <span className={`w-6 h-6 rounded-lg border flex items-center justify-center text-[10px] font-bold shrink-0 mr-3 transition-colors ${
-                    isSelected
-                      ? "bg-indigo-500/20 border-indigo-500/30 text-indigo-300"
-                      : "bg-white/5 border-white/10 text-gray-400 group-hover:text-white"
-                  }`}>
+                  <span className={`w-6 h-6 rounded-lg border flex items-center justify-center text-[10px] font-bold shrink-0 mr-3 transition-colors ${isSelected
+                    ? "bg-indigo-500/20 border-indigo-500/30 text-indigo-300"
+                    : "bg-white/5 border-white/10 text-gray-400 group-hover:text-white"
+                    }`}>
                     {key}
                   </span>
                   <span>{value}</span>

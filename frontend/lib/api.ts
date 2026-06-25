@@ -23,6 +23,44 @@ export interface Message {
   quiz?: Quiz;
 }
 
+export interface MasteryChapterSummary {
+  chapter: string;
+  mastery_score: number;
+  status: "Novice" | "Proficient" | "Expert";
+  highest_mastery_score: number;
+  highest_status: "Novice" | "Proficient" | "Expert";
+  updated_at?: string;
+}
+
+export interface LevelBreakdown {
+  level: number;
+  label: string;
+  total: number;
+  correct: number;
+  accuracy: number;
+}
+
+export interface PracticeRecommendation {
+  id: string;
+  chapter: string;
+  level: number;
+  title: string;
+  prompt: string;
+}
+
+export interface LearningReport {
+  summary: {
+    average_mastery: number;
+    total_attempts: number;
+    strongest_chapters: MasteryChapterSummary[];
+    weakest_chapters: MasteryChapterSummary[];
+    weakest_level: LevelBreakdown | null;
+  };
+  level_breakdown: LevelBreakdown[];
+  llm_report: string;
+  practice_recommendations: PracticeRecommendation[];
+}
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8888";
 
 async function getErrorMessage(res: Response, fallback: string): Promise<string> {
@@ -138,6 +176,31 @@ export async function getMasteryStatus(): Promise<any[]> {
     throw new Error(await getErrorMessage(res, "Cannot load mastery status."));
   }
   return await res.json();
+}
+
+export async function getLearningReport(): Promise<LearningReport> {
+  const res = await fetch(`${API_URL}/learning-report`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(await getErrorMessage(res, "Cannot load learning report."));
+  }
+  return await res.json() as LearningReport;
+}
+
+export async function generateReportPractice(recommendation: PracticeRecommendation): Promise<Quiz> {
+  const res = await fetch(`${API_URL}/learning-report/practice`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(recommendation),
+  });
+  if (!res.ok) {
+    handleUnauthorized(res.status);
+    throw new Error(await getErrorMessage(res, "Cannot generate report practice."));
+  }
+  return await res.json() as Quiz;
 }
 
 export async function sendMessage(

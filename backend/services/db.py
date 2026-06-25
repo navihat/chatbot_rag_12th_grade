@@ -194,6 +194,29 @@ def get_all_chapter_mastery(email: str) -> list[dict]:
             return cursor.fetchall()
 
 
+def get_recent_assessment_details(email: str, limit: int = 100) -> list[dict]:
+    with get_db_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT chapter, level, correct, response_time, created_at
+                FROM chapter_assessment_details
+                WHERE email = %s
+                ORDER BY id DESC
+                LIMIT %s
+                """,
+                (_email(email), limit),
+            )
+            return cursor.fetchall()
+
+
+def get_learning_report_source_data(email: str) -> dict:
+    return {
+        "mastery": get_all_chapter_mastery(email),
+        "assessment_details": get_recent_assessment_details(email),
+    }
+
+
 def save_assessment_detail(email: str, chapter: str, level: int, correct: int, response_time: float) -> None:
     with get_db_connection() as conn:
         with conn.cursor() as cursor:
