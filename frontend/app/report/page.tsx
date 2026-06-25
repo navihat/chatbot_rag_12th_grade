@@ -3,11 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  clearToken,
-  getEmail,
-  isAuthenticated,
-} from "@/lib/auth";
+import { getEmail, isAuthenticated } from "@/lib/auth";
 import {
   generateReportPractice,
   getLearningReport,
@@ -15,7 +11,7 @@ import {
   type PracticeRecommendation,
   type Quiz,
 } from "@/lib/api";
-import Logo from "@/components/Logo";
+import AppHeader from "@/components/AppHeader";
 import QuizCard from "@/components/QuizCard";
 
 function percent(value: number): string {
@@ -96,35 +92,7 @@ export default function LearningReportPage() {
       <div className="absolute top-0 right-1/4 w-[460px] h-[460px] rounded-full bg-indigo-500/5 blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/5 w-[460px] h-[460px] rounded-full bg-pink-500/5 blur-[150px] pointer-events-none" />
 
-      <header className="h-16 border-b border-white/5 glass-panel flex items-center justify-between px-4 md:px-8 relative z-10">
-        <Link href="/" className="flex items-center gap-2.5">
-          <Logo size="sm" />
-          <div>
-            <h1 className="text-sm font-extrabold text-white leading-none">Báo cáo học tập</h1>
-            <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Hóa học 12</span>
-          </div>
-        </Link>
-        <div className="flex items-center gap-3">
-          <span className="hidden sm:block text-xs text-gray-400 max-w-[220px] truncate" title={email}>
-            {email}
-          </span>
-          <Link
-            href="/"
-            className="text-xs font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded-xl px-3 py-2 hover:bg-indigo-500/20 transition-colors"
-          >
-            Dashboard
-          </Link>
-          <button
-            onClick={() => {
-              clearToken();
-              router.replace("/login");
-            }}
-            className="text-xs font-bold text-red-400/80 hover:text-red-300 px-3 py-2 rounded-xl hover:bg-red-500/10 transition-colors"
-          >
-            Đăng xuất
-          </button>
-        </div>
-      </header>
+      <AppHeader title="Báo cáo học tập" subtitle="Hóa học 12" email={email} active="report" />
 
       <section className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 py-6 space-y-5">
         {loading ? (

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated, clearToken, getEmail } from "@/lib/auth";
+import AppHeader from "@/components/AppHeader";
 import ChatWindow from "@/components/ChatWindow";
 import DiagnosticView from "@/components/DiagnosticView";
 import Logo from "@/components/Logo";
@@ -57,36 +58,24 @@ export default function Home() {
   if (!ready) return null;
 
   return (
-    <main className="min-h-screen bg-[#090a0f] text-gray-200 flex overflow-hidden font-sans relative">
+    <main className="min-h-screen bg-[#090a0f] text-gray-200 flex flex-col overflow-hidden font-sans relative">
       {/* Background decoration glows */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-indigo-500/5 blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[150px] pointer-events-none" />
 
-      {/* MOBILE HEADER BAR */}
-      <div className="lg:hidden absolute top-0 left-0 right-0 h-14 glass-panel border-b border-white/5 flex items-center justify-between px-4 z-40">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="text-gray-400 hover:text-white focus:outline-none"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        <span className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
-          <Logo size="sm" />
-          <span className="text-gradient font-extrabold">Hóa Học 12</span>
-        </span>
-        <button
-          onClick={() => { clearToken(); router.replace("/login"); }}
-          className="text-xs text-red-400 font-medium hover:text-red-300"
-        >
-          Thoát
-        </button>
-      </div>
+      <AppHeader
+        title="Dashboard học tập"
+        subtitle="Hóa học 12"
+        email={email}
+        active="dashboard"
+        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
+      />
+
+      <div className="relative z-10 flex flex-1 min-h-0 overflow-hidden">
 
       {/* LEFT SIDEBAR - LEARNING DASHBOARD */}
       <aside className={`
-        fixed inset-y-0 left-0 w-72 glass-panel border-r border-white/5 flex flex-col z-50 transform transition-transform duration-300 lg:relative lg:translate-x-0
+        fixed top-16 bottom-0 left-0 w-72 glass-panel border-r border-white/5 flex flex-col z-50 transform transition-transform duration-300 lg:relative lg:top-auto lg:bottom-auto lg:translate-x-0
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
       `}>
         {/* Sidebar Header */}
@@ -214,7 +203,7 @@ export default function Home() {
       )}
 
       {/* CENTER AREA */}
-      <section className="flex-1 flex flex-col h-screen overflow-hidden pt-14 lg:pt-0">
+      <section className="flex-1 flex flex-col h-full overflow-hidden">
         <div className="flex-1 p-4 md:p-6 flex flex-col justify-center max-w-4xl w-full mx-auto h-full">
           {activeTab === "chat" ? (
             <ChatWindow
@@ -256,6 +245,7 @@ export default function Home() {
           </p>
         </div>
       </aside>
+      </div>
     </main>
   );
 }
