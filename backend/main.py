@@ -10,7 +10,7 @@ if str(BACKEND_DIR) not in sys.path:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, chat, quiz, assessment
-from services.vectorstore import init_vectorstore
+from services.retrieval import init_retrieval
 from services.db import init_db
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    init_vectorstore()
+    init_retrieval()
     yield
 
 

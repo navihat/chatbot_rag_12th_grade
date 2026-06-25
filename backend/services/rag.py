@@ -3,8 +3,7 @@ import logging
 from typing import AsyncGenerator
 from groq import AsyncGroq
 from dotenv import load_dotenv
-from services.vectorstore import query_chunks
-from services.embeddings import embed_query
+from services.retrieval import retrieve_chunks
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -25,10 +24,8 @@ async def generate_answer(
     question: str,
     history: list[dict],
 ) -> AsyncGenerator[dict, None]:
-    embedding = embed_query(question)
     top_k = int(os.getenv("TOP_K", "5"))
-    chunks = query_chunks(embedding, top_k=top_k)
-    relevant = [c for c in chunks if c["score"] >= MIN_SCORE]
+    relevant = retrieve_chunks(question, top_k=top_k, min_score=MIN_SCORE)
 
     if not relevant:
         yield {"delta": "Câu hỏi này nằm ngoài nội dung SGK Hóa học 12 mà tôi được cung cấp. Bạn có thể hỏi câu khác không?"}

@@ -1,14 +1,16 @@
 import logging
-from sentence_transformers import SentenceTransformer
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
-_model: SentenceTransformer | None = None
+_model: Any | None = None
 
 
-def get_model() -> SentenceTransformer:
+def get_model() -> Any:
     global _model
     if _model is None:
+        from sentence_transformers import SentenceTransformer
+
         logger.info("Loading multilingual-e5-large embedding model...")
         _model = SentenceTransformer("intfloat/multilingual-e5-large")
         logger.info("Embedding model ready.")

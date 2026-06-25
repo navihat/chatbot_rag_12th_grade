@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: chemistry-chatbot-backend
+    env: python
+    plan: free
+    buildCommand: uv sync --no-dev
+    startCommand: uv run uvicorn main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: RAG_RETRIEVAL_MODE
+        value: text
+      - key: PYTHONUNBUFFERED
+        value: "1"

@@ -5,8 +5,7 @@ import logging
 from fastapi import HTTPException
 from groq import AsyncGroq
 from dotenv import load_dotenv
-from services.embeddings import embed_query
-from services.vectorstore import query_chunks
+from services.retrieval import retrieve_chunks
 from services.db import (
     save_active_diagnostic,
     get_active_diagnostic,
@@ -46,10 +45,8 @@ Yêu cầu cấu trúc đề bắt buộc:
 
 async def generate_assessment_questions(chapter: str, email: str) -> dict:
     try:
-        # Retrieve contexts from ChromaDB specifically for this chapter
-        embedding = embed_query(chapter)
         # Fetch top 8 chunks to have enough context for 10 distinct questions
-        chunks = query_chunks(embedding, top_k=8)
+        chunks = retrieve_chunks(chapter, top_k=8)
         context = "\n\n---\n\n".join(c["text"] for c in chunks)
         
         if not context:
