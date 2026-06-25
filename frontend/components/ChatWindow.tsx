@@ -150,7 +150,7 @@ export default function ChatWindow({ externalPrompt, onClearExternalPrompt }: Pr
   const isInitialState = messages.length === 1 && messages[0].content === WELCOME.content;
 
   return (
-    <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-[88vh] shadow-2xl relative backdrop-blur-xl">
+    <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-full min-h-0 shadow-2xl relative backdrop-blur-xl">
       {/* Background radial highlight */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-80 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none" />
 
@@ -172,7 +172,7 @@ export default function ChatWindow({ externalPrompt, onClearExternalPrompt }: Pr
       </div>
 
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-5 relative z-10">
+      <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-6 space-y-5 relative z-10">
         {initLoading ? (
           <div className="h-full flex flex-col items-center justify-center space-y-3">
             <svg

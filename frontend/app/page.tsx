@@ -58,7 +58,7 @@ export default function Home() {
   if (!ready) return null;
 
   return (
-    <main className="min-h-screen bg-[#090a0f] text-gray-200 flex flex-col overflow-hidden font-sans relative">
+    <main className="h-screen bg-[#090a0f] text-gray-200 flex flex-col overflow-hidden font-sans relative">
       {/* Background decoration glows */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-indigo-500/5 blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[150px] pointer-events-none" />
@@ -203,8 +203,8 @@ export default function Home() {
       )}
 
       {/* CENTER AREA */}
-      <section className="flex-1 flex flex-col h-full overflow-hidden">
-        <div className="flex-1 p-4 md:p-6 flex flex-col justify-center max-w-4xl w-full mx-auto h-full">
+      <section className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <div className="flex-1 min-h-0 p-4 md:p-6 flex flex-col max-w-4xl w-full mx-auto">
           {activeTab === "chat" ? (
             <ChatWindow
               externalPrompt={activePrompt}

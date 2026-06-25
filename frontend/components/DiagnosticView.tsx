@@ -179,7 +179,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
   // Render Dashboard
   if (!activeTestChapter) {
     return (
-      <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-[88vh] shadow-2xl relative backdrop-blur-xl p-6 space-y-6">
+      <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-full min-h-0 shadow-2xl relative backdrop-blur-xl p-6 space-y-6">
         <div className="border-b border-white/5 pb-4 select-none">
           <h2 className="text-xl font-extrabold text-white font-outfit tracking-tight">
             📊 Bản Đồ Năng Lực & Độ Thông Thạo
@@ -267,7 +267,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
   // Render Quiz Loading State
   if (quizLoading) {
     return (
-      <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl items-center justify-center p-8 flex-1 h-[88vh] text-center space-y-6 backdrop-blur-xl relative">
+      <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl items-center justify-center p-8 flex-1 h-full min-h-0 text-center space-y-6 backdrop-blur-xl relative">
         <div className="absolute inset-0 bg-indigo-500/5 blur-2xl pointer-events-none" />
         <div className="relative inline-flex items-center justify-center">
           <div className="absolute inset-0 bg-indigo-500/20 blur-xl rounded-full scale-75 animate-pulse" />
@@ -311,7 +311,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
         : "Bạn cần cải thiện nhiều. Hệ thống đã cập nhật gợi ý đào tạo lại từ đầu. Hãy bấm nút 'Luyện tập với Chatbot' để chatbot hỗ trợ giảng giải.";
 
     return (
-      <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-[88vh] shadow-2xl relative backdrop-blur-xl p-6 space-y-5">
+      <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-full min-h-0 shadow-2xl relative backdrop-blur-xl p-6 space-y-5">
         <div className="text-center space-y-1 pb-3 border-b border-white/5 relative z-10">
           <div className="text-4xl">📊</div>
           <h2 className="text-lg font-bold text-white font-outfit">Kết Quả Đánh Giá Năng Lực</h2>
@@ -400,7 +400,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
   const selectedOption = currentQuestion ? answers[currentQuestion.id.toString()] : "";
 
   return (
-    <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-[88vh] shadow-2xl relative backdrop-blur-xl p-5 md:p-6 space-y-4">
+    <div className="flex flex-col bg-[#12131a]/70 border border-white/5 rounded-3xl overflow-hidden flex-1 h-full min-h-0 shadow-2xl relative backdrop-blur-xl p-5 md:p-6 space-y-4">
       {/* Header Info */}
       <div className="flex items-center justify-between border-b border-white/5 pb-3">
         <div>
