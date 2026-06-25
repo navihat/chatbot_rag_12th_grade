@@ -25,6 +25,15 @@ export interface Message {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8888";
 
+async function getErrorMessage(res: Response, fallback: string): Promise<string> {
+  try {
+    const data = await res.json() as { detail?: string; error?: string };
+    return data.detail ?? data.error ?? `${fallback} (HTTP ${res.status})`;
+  } catch {
+    return `${fallback} (HTTP ${res.status})`;
+  }
+}
+
 function authHeaders(): Record<string, string> {
   const token = typeof window !== "undefined" ? localStorage.getItem("hoa12_token") : null;
   return token ? { Authorization: `Bearer ${token}` } : {};
@@ -97,7 +106,7 @@ export async function getChapterQuestions(chapter: string): Promise<any> {
   });
   if (!res.ok) {
     handleUnauthorized(res.status);
-    throw new Error(`HTTP ${res.status}`);
+    throw new Error(await getErrorMessage(res, "Cannot load chapter questions."));
   }
   return await res.json();
 }
@@ -114,7 +123,7 @@ export async function submitChapterAssessment(
   });
   if (!res.ok) {
     handleUnauthorized(res.status);
-    throw new Error(`HTTP ${res.status}`);
+    throw new Error(await getErrorMessage(res, "Cannot submit chapter assessment."));
   }
   return await res.json();
 }
@@ -126,7 +135,7 @@ export async function getMasteryStatus(): Promise<any[]> {
   });
   if (!res.ok) {
     handleUnauthorized(res.status);
-    throw new Error(`HTTP ${res.status}`);
+    throw new Error(await getErrorMessage(res, "Cannot load mastery status."));
   }
   return await res.json();
 }

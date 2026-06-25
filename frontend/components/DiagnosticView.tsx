@@ -124,7 +124,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
         setActiveTestChapter(null);
       }
     } catch (err) {
-      alert("Lỗi kết nối hoặc gọi API. Hãy kiểm tra backend.");
+      alert(err instanceof Error ? err.message : "Lỗi kết nối hoặc gọi API. Hãy kiểm tra backend.");
       setActiveTestChapter(null);
     } finally {
       setQuizLoading(false);
@@ -157,7 +157,7 @@ export default function DiagnosticView({ onTriggerPractice }: Props) {
         setTestResult(result);
         loadMasteryStatus(); // Reload updated stats
       } catch (err) {
-        alert("Lỗi khi nộp bài. Vui lòng thử lại.");
+        alert(err instanceof Error ? err.message : "Lỗi khi nộp bài. Vui lòng thử lại.");
       } finally {
         setSubmitting(false);
       }
