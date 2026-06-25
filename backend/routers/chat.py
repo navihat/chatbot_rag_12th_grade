@@ -29,7 +29,7 @@ class ChatRequest(BaseModel):
 
 @router.post("/chat")
 async def chat(request: ChatRequest, email: str = Depends(get_current_user)):
-    # Save the user's question immediately to the SQLite database
+    # Save the user's question immediately to the database.
     save_chat_message(email, "user", request.question)
     
     history = [m.model_dump() for m in request.history]

@@ -78,7 +78,7 @@ async def generate_assessment_questions(chapter: str, email: str) -> dict:
             if len(questions) != 10:
                 logger.warning(f"LLM generated {len(questions)} instead of 10 questions")
                 
-            # Cache the complete questions (with answers) in SQLite for server-side grading
+            # Cache the complete questions with answers for server-side grading.
             save_active_diagnostic(email, json.dumps(questions, ensure_ascii=False))
             
             # Strip correct answers and explanations before sending to client to prevent cheating

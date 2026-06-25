@@ -1,111 +1,222 @@
-# 🧪 Chatbot Hóa Học Lớp 12 - Trợ Lý Học Tập RAG Thông Minh
+# Chatbot Hóa học 12
 
-Hệ thống Chatbot hỗ trợ học tập môn Hóa học lớp 12 (Sách giáo khoa Kết nối tri thức) sử dụng kiến trúc **RAG (Retrieval-Augmented Generation)** hiện đại. Dự án kết hợp công nghệ xử lý dữ liệu thông minh, cơ sở dữ liệu vector để đảm bảo thông tin trả lời luôn chính xác, khách quan và bám sát chương trình học.
+Ứng dụng trợ lý học tập môn Hóa học lớp 12 theo SGK Kết nối tri thức. Dự án dùng kiến trúc RAG (Retrieval-Augmented Generation) để truy xuất nội dung sách giáo khoa từ ChromaDB, sau đó tạo câu trả lời, câu hỏi trắc nghiệm và bài đánh giá năng lực bằng Groq API.
 
----
+## Tính năng chính
 
-## ✨ Tính Năng Nổi Bật
+- Hỏi đáp Hóa học 12 dựa trên dữ liệu SGK đã được OCR, làm sạch và nạp vào vector store.
+- Trả lời dạng streaming qua Server-Sent Events để giao diện nhận nội dung từng phần.
+- Hiển thị nguồn tham khảo theo metadata `source` và `page` của các đoạn dữ liệu được truy xuất.
+- Tạo câu hỏi trắc nghiệm tương tác khi người dùng yêu cầu luyện tập, quiz hoặc đề thi.
+- Đăng ký, đăng nhập bằng email/mật khẩu; xác thực các API học tập bằng JWT.
+- Lưu lịch sử chat, quiz và tiến độ học tập vào Supabase/Postgres.
+- Đánh giá năng lực theo chương với 10 câu hỏi, tính Mastery Score và phân loại `Novice`, `Proficient`, `Expert`.
 
-### 💬 1. Trợ Lý Hỏi Đáp RAG Trực Tuyến (Hóa Học 12)
-- **Hỏi đáp thông minh:** Trả lời các câu hỏi lý thuyết lý hóa, bài tập và kiến thức Hóa học 12 bám sát 100% nội dung SGK Kết nối tri thức.
-- **Tránh ảo tưởng (Anti-Hallucination):** Ràng buộc LLM chỉ trả lời dựa vào ngữ cảnh dữ liệu thực tế từ SGK. Nếu câu hỏi nằm ngoài phạm vi, chatbot sẽ từ chối trả lời một cách lịch sự để đảm bảo tính giáo khoa.
-- **Dẫn nguồn minh bạch:** Hiển thị rõ ràng các trang sách tham chiếu chứa thông tin trả lời, giúp học sinh dễ dàng tra cứu lại.
-- **Phản hồi thời gian thực (Streaming):** Sử dụng `EventSource (Server-Sent Events)` để truyền dữ liệu dạng dòng (stream), mang lại trải nghiệm phản hồi mượt mà và tức thì.
-- **Chuẩn hóa công thức:** Tự động định dạng các công thức hóa học phức tạp dưới dạng Unicode chuẩn xác (ví dụ: `H₂SO₄`, `Fe₂O₃`, `HNO₃`).
+## Công nghệ sử dụng
 
-### 📝 2. Trình Tạo Câu Hỏi Trắc Nghiệm Tương Tác (Interactive Quiz)
-- **Tự động nhận diện ý định:** Khi người dùng yêu cầu luyện tập (ví dụ: *"tạo câu hỏi trắc nghiệm về este"*, *"trắc nghiệm carbohydrate"*), hệ thống tự động chuyển sang chế độ tạo Quiz.
-- **Tạo câu hỏi bám sát kiến thức:** Truy vấn các phần nội dung liên quan trực tiếp từ sách giáo khoa trong ChromaDB để tạo ra bộ câu hỏi 4 lựa chọn (A, B, C, D).
-- **Trắc nghiệm tương tác:** Học sinh có thể bấm chọn đáp án trực tiếp trên giao diện Chat. Hệ thống sẽ kiểm tra và hiển thị ngay kết quả Đúng/Sai cùng **lời giải thích chi tiết dẫn từ SGK**.
+### Backend
 
-### ⚡ 3. Quy Trình OCR & Tiền Xử Lý Dữ Liệu Tự Động
-Hệ thống tích hợp bộ công cụ chuyển đổi sách PDF scan thành cơ sở dữ liệu vector chất lượng cao:
-- **Bước 1 (OCR):** [ocr.py](file:///d:/2025.2/Practical%20Project%20Management/chemistry-chatbot/backend/scripts/ocr.py) trích xuất chữ từ PDF scan bằng **EasyOCR + PyMuPDF**, tích hợp tăng tốc phần cứng qua **CUDA GPU (NVIDIA GTX 1650)** giúp tăng tốc độ xử lý gấp **25-30 lần** so với CPU.
-- **Bước 2 (Làm sạch - Clean):** [clean.py](file:///d:/2025.2/Practical%20Project%20Management/chemistry-chatbot/backend/scripts/clean.py) chuẩn hóa cấu trúc văn bản, gộp dòng ngắt quãng và tự động dịch các công thức hóa học dạng text thường thành dạng chỉ số dưới Unicode chuẩn khoa học.
-- **Bước 3 (Nạp dữ liệu - Ingestion):** [ingest.py](file:///d:/2025.2/Practical%20Project%20Management/chemistry-chatbot/backend/scripts/ingest.py) chia nhỏ văn bản (recursive chunking), chuyển đổi sang vector embeddings bằng mô hình ngôn ngữ mạnh mẽ `multilingual-e5-large` và lưu trữ vào **ChromaDB**.
+- Python 3.13
+- FastAPI
+- Supabase/Postgres
+- ChromaDB
+- Sentence Transformers với model `intfloat/multilingual-e5-large`
+- Groq API
+- EasyOCR và PyMuPDF cho quy trình OCR PDF
+- `python-jose` cho JWT
 
----
+### Frontend
 
-## 🛠️ Công Nghệ Sử Dụng
+- Next.js 15 App Router
+- React 19
+- TypeScript
+- Tailwind CSS
 
-### Backend (Python 3.13)
-*   **FastAPI:** Khởi tạo API hiệu năng cao với cơ chế Lifespan và streaming response.
-*   **ChromaDB:** Cơ sở dữ liệu vector nhúng để tìm kiếm ngữ cảnh nhanh chóng.
-*   **Groq API (LLaMA 3.3 70B):** Trí tuệ nhân tạo tạo sinh phản hồi cực nhanh, thông minh.
-*   **PyTorch (CUDA 12.4):** Chạy tăng tốc phần cứng cho EasyOCR và sinh embeddings.
-*   **EasyOCR & PyMuPDF (Fitz):** Trích xuất văn bản từ sách PDF.
-
-### Frontend (Next.js 15 & React)
-*   **Next.js App Router & TypeScript:** Kiến trúc web hiện đại, dễ bảo trì.
-*   **Tailwind CSS:** Thiết kế giao diện chatbot hiện đại, thân thiện, tương thích đa thiết bị.
-*   **Server-Sent Events (SSE):** Tiếp nhận dòng phản hồi từ API Backend.
-
----
-
-## 🚀 Hướng Dẫn Cài Đặt & Khởi Chạy
-
-### 1. Cấu hình Môi Trường (`.env`)
-Tạo file `.env` trong thư mục [backend](file:///d:/2025.2/Practical%20Project%20Management/chemistry-chatbot/backend) dựa trên file `.env.example`:
-```env
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=llama-3.3-70b-versatile
-EMBEDDING_DEVICE=cuda
-TOP_K=5
-```
-
----
-
-### 2. Tiền xử lý dữ liệu SGK (Nếu cần nạp lại sách)
-Đặt file sách PDF vào thư mục `backend/data/pdf/sgk.pdf` và chạy lần lượt các lệnh sau từ thư mục `backend/`:
-
-```bash
-# Bước 1: OCR trích xuất văn bản (Hỗ trợ tăng tốc GPU tự động nếu có CUDA)
-uv run python scripts/ocr.py --input data/pdf/sgk.pdf --output data/ocr_raw/
-
-# Bước 2: Làm sạch văn bản & Chuẩn hóa công thức hóa học
-uv run python scripts/clean.py --input data/ocr_raw/ --output data/ocr_clean/
-
-# Bước 3: Cắt nhỏ & Nạp vào ChromaDB vector store
-uv run python scripts/ingest.py --input data/ocr_clean/
-```
-
----
-
-### 3. Khởi chạy Hệ Thống
-
-#### Chạy Backend (FastAPI):
-Từ thư mục `backend/` chạy lệnh:
-```bash
-uv run uvicorn main:app --reload --port 8000
-```
-Server backend sẽ chạy tại: `http://localhost:8000`
-
-#### Chạy Frontend (Next.js):
-Từ thư mục `frontend/` chạy lệnh:
-```bash
-npm run dev
-```
-Giao diện ứng dụng sẽ sẵn sàng tại: `http://localhost:3000`
-
----
-
-## 📐 Cấu Trúc Thư Mục Dự Án
+## Cấu trúc thư mục
 
 ```text
 chemistry-chatbot/
 ├── backend/
-│   ├── data/                 # Chứa dữ liệu PDF, OCR thô và sạch
-│   │   ├── pdf/sgk.pdf
-│   │   ├── ocr_raw/
+│   ├── data/
+│   │   ├── diagnostic_bank.json
 │   │   └── ocr_clean/
-│   ├── routers/              # Các routes FastAPI (chat, quiz)
-│   ├── scripts/              # Các công cụ OCR, Clean, Ingest
-│   ├── services/             # Core Logic (RAG, Embeddings, VectorStore)
-│   ├── main.py               # Điểm khởi chạy FastAPI Server
+│   ├── routers/
+│   │   ├── assessment.py
+│   │   ├── auth.py
+│   │   ├── chat.py
+│   │   └── quiz.py
+│   ├── scripts/
+│   │   ├── clean.py
+│   │   ├── ingest.py
+│   │   └── ocr.py
+│   ├── services/
+│   │   ├── assessment.py
+│   │   ├── auth.py
+│   │   ├── db.py
+│   │   ├── embeddings.py
+│   │   ├── rag.py
+│   │   ├── quiz.py
+│   │   └── vectorstore.py
+│   ├── main.py
 │   └── requirements.txt
 ├── frontend/
-│   ├── app/                  # Next.js Pages & Layouts
-│   ├── components/           # UI Components (ChatWindow, QuizCard, v.v.)
+│   ├── app/
+│   ├── components/
+│   ├── lib/
 │   └── package.json
+├── pyproject.toml
+├── uv.lock
 └── README.md
 ```
+
+## Yêu cầu môi trường
+
+- Python `>=3.13`
+- Node.js phù hợp với Next.js 15
+- `npm`
+- `uv` nếu muốn dùng lockfile Python ở thư mục gốc
+- Groq API key
+- Supabase Postgres connection string
+
+Lần đầu chạy embedding hoặc OCR có thể cần tải model từ internet. Nếu dùng EasyOCR GPU, máy cần cài đặt môi trường CUDA/PyTorch phù hợp.
+
+## Cấu hình biến môi trường
+
+Tạo file `backend/.env`:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
+SECRET_KEY=replace-with-a-long-random-secret
+SUPABASE_DATABASE_URL=postgresql://postgres.xxxxxxxxx:your_password@aws-0-region.pooler.supabase.com:6543/postgres?sslmode=require
+TOP_K=5
+CHROMA_PATH=./chroma_db
+COLLECTION_NAME=hoa_hoc_12
+```
+
+Tạo file `frontend/.env.local` nếu backend không chạy ở URL mặc định:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8888
+```
+
+Nếu không khai báo `NEXT_PUBLIC_API_URL`, frontend sẽ tự dùng `http://localhost:8888`.
+
+## Cài đặt và chạy dự án
+
+### 1. Cài đặt backend
+
+Từ thư mục gốc dự án:
+
+```bash
+uv sync
+```
+
+Hoặc dùng `pip` trong môi trường Python riêng:
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+### 2. Chạy backend
+
+Từ thư mục `backend/`:
+
+```bash
+uv run uvicorn main:app --reload --host 0.0.0.0 --port 8888
+```
+
+Backend chạy tại:
+
+```text
+http://localhost:8888
+```
+
+Kiểm tra nhanh:
+
+```text
+GET http://localhost:8888/health
+```
+
+### 3. Cài đặt frontend
+
+Từ thư mục `frontend/`:
+
+```bash
+npm install
+```
+
+### 4. Chạy frontend
+
+Từ thư mục `frontend/`:
+
+```bash
+npm run dev
+```
+
+Frontend chạy tại:
+
+```text
+http://localhost:3000
+```
+
+## Quy trình chuẩn bị dữ liệu SGK
+
+Dự án có sẵn dữ liệu OCR đã làm sạch trong `backend/data/ocr_clean/`. Nếu cần nạp lại từ PDF, đặt file PDF vào ví dụ `backend/data/pdf/sgk.pdf`, rồi chạy từ thư mục `backend/`.
+
+### 1. OCR PDF sang JSON thô
+
+```bash
+uv run python scripts/ocr.py --input data/pdf/sgk.pdf --output data/ocr_raw/
+```
+
+Có thể OCR một khoảng trang:
+
+```bash
+uv run python scripts/ocr.py --input data/pdf/sgk.pdf --output data/ocr_raw/ --pages 1-10
+```
+
+### 2. Làm sạch dữ liệu OCR
+
+```bash
+uv run python scripts/clean.py --input data/ocr_raw/ --output data/ocr_clean/
+```
+
+Script này lọc dòng nhiễu, gộp dòng bị ngắt và chuẩn hóa một số công thức hóa học phổ biến.
+
+### 3. Nạp dữ liệu vào ChromaDB
+
+```bash
+uv run python scripts/ingest.py --input data/ocr_clean/
+```
+
+Script `ingest.py` sẽ chia nhỏ nội dung, tạo embeddings bằng `intfloat/multilingual-e5-large`, rồi upsert vào collection ChromaDB được cấu hình bằng `CHROMA_PATH` và `COLLECTION_NAME`.
+
+## API chính
+
+Các endpoint học tập yêu cầu header:
+
+```text
+Authorization: Bearer <token>
+```
+
+| Method   | Endpoint                                      | Mô tả                                       |
+| -------- | --------------------------------------------- | --------------------------------------------- |
+| `POST` | `/auth/register`                            | Đăng ký tài khoản và trả về JWT       |
+| `POST` | `/auth/login`                               | Đăng nhập và trả về JWT                 |
+| `POST` | `/chat`                                     | Chat RAG dạng streaming SSE                  |
+| `GET`  | `/chat/history`                             | Lấy lịch sử chat của người dùng        |
+| `POST` | `/chat/history/clear`                       | Xóa lịch sử chat                           |
+| `POST` | `/quiz`                                     | Tạo quiz trắc nghiệm theo yêu cầu        |
+| `GET`  | `/assessment/chapter/questions?chapter=...` | Tạo bài đánh giá 10 câu theo chương   |
+| `POST` | `/assessment/chapter/submit`                | Nộp bài đánh giá và tính Mastery Score |
+| `GET`  | `/assessment/mastery`                       | Lấy trạng thái thông thạo theo chương  |
+| `GET`  | `/health`                                   | Kiểm tra backend                             |
+
+## Ghi chú vận hành
+
+- User, lịch sử chat và kết quả đánh giá được lưu trong Supabase/Postgres qua `SUPABASE_DATABASE_URL`.
+- `backend/data/*.db`, `backend/chroma_db/`, `backend/data/pdf/` và `backend/data/ocr_raw/` là dữ liệu local/generate, không commit lên Git.
+- Nếu ChromaDB rỗng, chatbot và quiz sẽ không có ngữ cảnh SGK để trả lời; hãy chạy bước `ingest.py`.
+- `SECRET_KEY` mặc định trong code là `change-me`; cần thay bằng chuỗi bí mật riêng khi chạy thật.
+- Backend hiện cho phép CORS `*`, thuận tiện cho phát triển local nhưng nên giới hạn origin khi triển khai.

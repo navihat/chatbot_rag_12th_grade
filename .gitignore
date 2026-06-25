@@ -1,22 +1,39 @@
 # Environment
 .env
-.env.local
+.env.*
+!.env.example
+!.env.local.example
 
 # Python
 __pycache__/
 *.py[cod]
 venv/
 .venv/
+.pytest_cache/
+.ruff_cache/
 
-# Data (large files)
+# Local/generated data
 backend/data/pdf/
 backend/data/ocr_raw/
 backend/chroma_db/
+backend/data/*.db
+backend/data/*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
 
 # Node
 node_modules/
 .next/
+out/
+dist/
+build/
+*.tsbuildinfo
 
 # OS
 .DS_Store
 Thumbs.db
+
+# IDE
+.codegraph/
+.idea/
